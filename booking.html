@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buslink | Premium Botswana Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-deep: #0a0c10;
+            --nav-bg: rgba(18, 21, 28, 0.85);
+            --card-bg: #161922;
+            --gold: #D4AF37; 
+            --gold-hover: #b8962e;
+            --white: #ffffff;
+            --text-dim: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        
+        body {
+            background-color: var(--bg-deep);
+            background-image: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 40%);
+            color: var(--white);
+            min-height: 100vh;
+        }
+
+        /* --- RESTORED ORIGINAL NAV BAR --- */
+        .nav-wrapper {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 95%; max-width: 1200px; z-index: 1000;
+        }
+
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 30px; background: var(--nav-bg); backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border); border-radius: 100px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .brand-container { display: flex; flex-direction: column; line-height: 1; text-decoration: none; }
+        .logo { font-size: 22px; font-weight: 900; color: var(--white); text-transform: lowercase; letter-spacing: -1px; }
+        .logo-subtitle { font-size: 8px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 3px; }
+
+        .nav-links { display: flex; gap: 8px; align-items: center; }
+        
+        .nav-item {
+            display: flex; align-items: center; text-decoration: none;
+            background: rgba(255, 255, 255, 0.03); padding: 10px 16px; 
+            border-radius: 50px; color: var(--text-dim); transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid transparent; font-size: 11px; font-weight: 700; text-transform: uppercase;
+        }
+
+        .nav-item i { font-size: 14px; transition: margin 0.3s; }
+        .nav-text { max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+
+        .nav-item:hover { background: rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.3); color: var(--gold); padding-right: 20px; }
+        .nav-item:hover i { margin-right: 10px; }
+        .nav-item:hover .nav-text { max-width: 120px; opacity: 1; }
+
+        /* --- PAGE CONTENT --- */
+        .container {
+            max-width: 1300px; margin: 120px auto 40px;
+            display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 20px; padding: 0 20px;
+        }
+
+        .glass-panel {
+            background: rgba(22, 25, 34, 0.85); border: 1px solid var(--glass-border);
+            border-radius: 30px; padding: 25px; backdrop-filter: blur(10px);
+        }
+
+        h3 { font-size: 12px; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 2px; color: var(--gold); font-weight: 900; }
+
+        /* --- SEAT MAP --- */
+        .bus-floor {
+            background: #1a1e26; padding: 35px 15px; border-radius: 25px;
+            display: grid; grid-template-columns: repeat(2, 45px) 45px repeat(2, 45px);
+            justify-content: center; gap: 12px 6px; border: 1px solid var(--glass-border);
+        }
+        .seat { width: 42px; height: 50px; cursor: pointer; transition: 0.2s; position: relative; }
+        .seat-inner {
+            background: #2a2f3b; border: 2px solid #3f4759; border-radius: 8px;
+            width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+            font-size: 9px; font-weight: 900; color: var(--text-dim);
+        }
+        .selected .seat-inner { background: var(--gold); border-color: var(--gold); color: #000; }
+        .aisle { grid-column: 3; }
+
+        /* --- INPUTS & PAYMENT --- */
+        label { font-size: 9px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; display: block; margin-bottom: 8px; }
+        select, input {
+            width: 100%; padding: 14px; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
+            border-radius: 12px; color: white; margin-bottom: 20px; font-weight: 600; outline: none;
+        }
+        
+        .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .method {
+            background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px;
+            text-align: center; cursor: pointer; border: 1px solid var(--glass-border); transition: 0.3s;
+        }
+        .method i { font-size: 18px; display: block; margin-bottom: 5px; color: var(--text-dim); }
+        .method span { font-size: 9px; font-weight: 800; }
+        .method.active { background: rgba(212, 175, 55, 0.1); border-color: var(--gold); color: var(--gold); }
+        .method.active i { color: var(--gold); }
+
+        .pay-btn {
+            width: 100%; padding: 20px; background: var(--gold); color: #000;
+            border: none; border-radius: 15px; font-weight: 900; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+        }
+        .pay-btn:hover { background: var(--gold-hover); transform: translateY(-2px); }
+
+        /* --- TICKET MODAL --- */
+        #ticketOverlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000; padding-top: 50px;
+        }
+        .ticket {
+            background: white; color: #1a1a1a; width: 380px; margin: 0 auto;
+            border-radius: 24px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .ticket-header { background: #1a1a1a; color: white; padding: 30px; text-align: center; }
+        .ticket-body { padding: 30px; }
+        .t-row { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
+        .t-label { font-size: 9px; font-weight: 800; color: #888; text-transform: uppercase; }
+        .t-val { font-size: 12px; font-weight: 900; }
+
+        @media (max-width: 1000px) { .container { grid-template-columns: 1fr; margin-top: 100px; } }
+    </style>
+</head>
+<body>
+
+    <div class="nav-wrapper">
+        <nav>
+            <a href="index.html" class="brand-container">
+                <div class="logo">buslink</div>
+                <div class="logo-subtitle">Botswana</div>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i><span class="nav-text">Home</span></a>
+                <a href="booking.html" class="nav-item"><i class="fa-solid fa-bus"></i><span class="nav-text">Bookings</span></a>
+                <a href="ABOUT US.html" class="nav-item"><i class="fa-solid fa-circle-info"></i><span class="nav-text">About</span></a>
+                <a href="myac.html" class="nav-item"><i class="fa-solid fa-user-circle"></i><span class="nav-text">Profile</span></a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="glass-panel">
+            <h3>Route Selection</h3>
+            <label>Destination</label>
+            <select id="routeSelect" onchange="syncData()">
+                <option value="330">Gaborone ➔ Maun (P330)</option>
+                <option value="210">Gaborone ➔ Francistown (P210)</option>
+                <option value="280">Maun ➔ Kasane (P280)</option>
+            </select>
+
+            <label>Operator</label>
+            <select id="busOp">
+                <option>Motsatsi Holdings (5:00 PM)</option>
+                <option>NKK Express (7:30 PM)</option>
+                <option>Orphan Tours (8:00 PM)</option>
+                <option>Golden Bridge (8:30 PM)</option>
+                <option>Tee Pee (9:00 PM)</option>
+                <option>Lawa Holdings (Maun Link)</option>
+            </select>
+
+            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; border: 1px solid var(--glass-border);">
+                <label style="color: var(--gold);">Dispatch via:</label>
+                <p id="stops" style="font-size:11px; font-weight:600; line-height:1.5;">Mahalapye, Palapye, Serowe, Letlhakane</p>
+            </div>
+        </div>
+
+        <div class="glass-panel" style="text-align: center;">
+            <h3>Seat Selection</h3>
+            <div class="bus-floor" id="busMap"></div>
+            <p style="font-size:9px; color: var(--text-dim); margin-top: 15px; font-weight: 800; letter-spacing: 2px;">FRONT OF BUS</p>
+        </div>
+
+        <div class="glass-panel">
+            <h3>Digital Wallet</h3>
+            <div class="method-grid">
+                <div class="method" onclick="setM(this, 'FNB eWallet')"><i class="fa-solid fa-building-columns"></i><span>FNB</span></div>
+                <div class="method" onclick="setM(this, 'Orange Money')"><i class="fa-solid fa-mobile-screen"></i><span>Orange</span></div>
+                <div class="method" onclick="setM(this, 'MyZaka')"><i class="fa-solid fa-wallet"></i><span>MyZaka</span></div>
+                <div class="method" onclick="setM(this, 'Smega')"><i class="fa-solid fa-piggy-bank"></i><span>Smega</span></div>
+            </div>
+
+            <label>Recipient Number</label>
+            <input type="text" id="phone" placeholder="7x xxx xxx">
+
+            <div style="background: rgba(212,175,55,0.05); padding: 20px; border-radius: 15px; border: 1px dashed var(--gold); text-align: center;">
+                <label>Seats: <span id="sList" style="color:white">None</span></label>
+                <h2 id="total" style="font-weight: 900; font-size: 26px;">P 0.00</h2>
+            </div>
+            <button class="pay-btn" style="margin-top:20px;" onclick="pay()">Confirm Booking</button>
+        </div>
+    </div>
+
+    <div id="ticketOverlay">
+        <div class="ticket" id="ticketContent">
+            <div class="ticket-header">
+                <h2 style="letter-spacing:-1px">buslink</h2>
+                <p style="font-size:8px; letter-spacing:3px; color:var(--gold)">OFFICIAL TRAVEL PASS</p>
+            </div>
+            <div class="ticket-body">
+                <div class="t-row"><div><p class="t-label">Operator</p><p class="t-val" id="rOp"></p></div></div>
+                <div class="t-row"><div><p class="t-label">Route</p><p class="t-val" id="rRoute"></p></div></div>
+                <div class="t-row">
+                    <div><p class="t-label">Seats</p><p class="t-val" id="rSeats" style="color:var(--gold)"></p></div>
+                    <div><p class="t-label">Total</p><p class="t-val" id="rPrice"></p></div>
+                </div>
+                <div style="text-align:center; margin-top:20px;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=BuslinkVerified" alt="QR">
+                </div>
+            </div>
+        </div>
+        <button onclick="download()" style="display:block; margin:20px auto; padding:15px 30px; background:white; border:none; border-radius:10px; font-weight:900; cursor:pointer;">DOWNLOAD TICKET</button>
+        <button onclick="location.reload()" style="display:block; margin:0 auto; color:white; background:none; border:none; cursor:pointer;">Close</button>
+    </div>
+
+    <script>
+        let selected = [];
+        let method = "";
+
+        // Build Seats
+        const map = document.getElementById('busMap');
+        for(let i=1; i<=11; i++) {
+            let n = (i*2)-1;
+            map.innerHTML += `<div class="seat" onclick="sel(this, 'A${n}')"><div class="seat-inner">A${n}</div></div>`;
+            map.innerHTML += `<div class="seat" onclick="sel(this, 'A${n+1}')"><div class="seat-inner">A${n+1}</div></div>`;
+            map.innerHTML += `<div class="aisle"></div>`;
+            map.innerHTML += `<div class="seat" onclick="sel(this, 'B${n}')"><div class="seat-inner">B${n}</div></div>`;
+            map.innerHTML += `<div class="seat" onclick="sel(this, 'B${n+1}')"><div class="seat-inner">B${n+1}</div></div>`;
+        }
+
+        function sel(el, id) {
+            el.classList.toggle('selected');
+            if(selected.includes(id)) selected = selected.filter(s => s !== id);
+            else selected.push(id);
+            calc();
+        }
+
+        function calc() {
+            const p = document.getElementById('routeSelect').value;
+            document.getElementById('sList').innerText = selected.length ? selected.join(', ') : "None";
+            document.getElementById('total').innerText = `P ${(selected.length * p).toFixed(2)}`;
+        }
+
+        function setM(el, m) {
+            document.querySelectorAll('.method').forEach(x => x.classList.remove('active'));
+            el.classList.add('active');
+            method = m;
+        }
+
+        function syncData() {
+            const r = document.getElementById('routeSelect').value;
+            const s = document.getElementById('stops');
+            if(r == "330") s.innerText = "Mahalapye, Palapye, Serowe, Letlhakane, Rakops";
+            else if(r == "210") s.innerText = "Mahalapye, Palapye, Francistown Direct";
+            else s.innerText = "Nata, Pandamatenga, Kasane Link";
+            calc();
+        }
+
+        function pay() {
+            if(!selected.length || !method) return alert("Select seats and payment method.");
+            document.getElementById('rOp').innerText = document.getElementById('busOp').value;
+            document.getElementById('rRoute').innerText = document.getElementById('routeSelect').options[document.getElementById('routeSelect').selectedIndex].text;
+            document.getElementById('rSeats').innerText = selected.join(', ');
+            document.getElementById('rPrice').innerText = document.getElementById('total').innerText;
+            document.getElementById('ticketOverlay').style.display = 'block';
+        }
+
+        function download() {
+            html2canvas(document.getElementById('ticketContent')).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'BusLink-Ticket.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Buslink Botswana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep: #0a0c10;
+            --nav-bg: rgba(18, 21, 28, 0.85);
+            --card-bg: #161922;
+            --gold: #D4AF37; 
+            --gold-hover: #b8962e;
+            --white: #ffffff;
+            --text-dim: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: 
+                linear-gradient(rgba(10, 12, 16, 0.85), rgba(10, 12, 16, 0.85)),
+                url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=2000');
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--white);
+            line-height: 1.6;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 2026 FLOATING NAV BAR --- */
+        .nav-wrapper {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 1200px;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 10px 30px; 
+            background: var(--nav-bg); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .brand-container { display: flex; flex-direction: column; line-height: 1; text-decoration: none; }
+        .logo { font-size: 22px; font-weight: 900; color: var(--white); text-transform: lowercase; letter-spacing: -1px; }
+        .logo-subtitle { font-size: 8px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 3px; }
+
+        .nav-links { display: flex; gap: 8px; align-items: center; }
+        
+        .nav-item {
+            display: flex; 
+            align-items: center; 
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.03); 
+            padding: 10px 16px; 
+            border-radius: 50px;
+            color: var(--text-dim); 
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid transparent;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav-item i { font-size: 14px; transition: margin 0.3s; }
+        .nav-text { 
+            max-width: 0; 
+            overflow: hidden; 
+            white-space: nowrap; 
+            opacity: 0; 
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-item:hover, .nav-item.active-page {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.3);
+            color: var(--gold);
+            padding-right: 20px;
+        }
+        
+        .nav-item:hover i, .nav-item.active-page i { margin-right: 10px; }
+        .nav-item:hover .nav-text, .nav-item.active-page .nav-text { max-width: 120px; opacity: 1; }
+
+        /* --- CONTENT WRAPPER --- */
+        .content-wrapper { 
+            max-width: 1100px; 
+            margin: 120px auto 60px; 
+            padding: 0 20px; 
+        }
+
+        .glass-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 60px;
+            margin-bottom: 50px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        h1 { font-size: 60px; font-weight: 900; margin-bottom: 25px; letter-spacing: -2px; line-height: 1; }
+        h2 { font-size: 28px; font-weight: 900; color: var(--gold); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        p { font-size: 18px; margin-bottom: 25px; color: var(--text-dim); font-weight: 400; }
+        strong { color: var(--white); }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 35px;
+            border-radius: 25px;
+            border: 1px solid var(--glass-border);
+            transition: 0.3s;
+        }
+
+        .info-card:hover { transform: translateY(-10px); border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
+        .info-card h3 { margin-bottom: 15px; font-weight: 800; font-size: 18px; color: var(--white); }
+
+        .operators-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .operator-tag {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .badge-container { display: flex; gap: 15px; margin-top: 30px; }
+        .badge { background: transparent; border: 1px solid var(--glass-border); color: var(--text-dim); padding: 8px 20px; border-radius: 50px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 40px; }
+            .nav-item .nav-text { display: none; }
+            .glass-section { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+   <div class="nav-wrapper">
+        <nav>
+            <a href="index.html" class="brand-container">
+                <div class="logo">buslink</div>
+                <div class="logo-subtitle">Botswana</div>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="nav-text">Home</span>
+                </a>
+                <a href="booking.html" class="nav-item">
+                    <i class="fa-solid fa-bus"></i>
+                    <span class="nav-text">Bookings</span>
+                </a>
+                <a href="ABOUT US.html" class="nav-item">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span class="nav-text">About</span>
+                </a>
+                <a href="myac.html" class="nav-item">
+                    <i class="fa-solid fa-user-circle"></i>
+                    <span class="nav-text">Profile</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="content-wrapper">
+        <section class="glass-section">
+            <h1>Beyond the <span style="color: var(--gold);">Rank.</span></h1>
+            <p>
+                Buslink Botswana was born from a simple observation: Botswana's heart beats on the road, yet the way we access travel remained manual. We are a tech-driven logistics partner dedicated to digitizing the journey from <strong>Gaborone to the Okavango.</strong>
+            </p>
+            <p>
+                No more waking up at 4:00 AM to stand in line at the Gaborone Bus Rank. We provide a transparent, secure, and luxury-focused booking engine for the modern Motswana traveler.
+            </p>
+            
+            <div class="badge-container">
+                <div class="badge">DRTS Compliant</div>
+                <div class="badge">Botswana Owned</div>
+                <div class="badge">Secure Payments</div>
+            </div>
+        </section>
+
+        <section class="glass-section">
+            <h2>The Buslink Network</h2>
+            <p>We have strategically partnered with reputable operators to ensure your "Night Trip" is safe and consistent.</p>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📍 Gaborone - Maun Corridor</h3>
+                    <p>Our flagship route. Serving Mahalapye, Serowe, and Letlhakane with premium overnight services.</p>
+                </div>
+                <div class="info-card">
+                    <h3>📍 The North-East Link</h3>
+                    <p>Direct connections to Francistown and onwards to the Kasane/Chobe gateway through Nata.</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 40px; font-size: 12px; text-transform: uppercase; color: var(--gold); letter-spacing: 2px;">Authorized Operators</h3>
+            <div class="operators-list">
+                <div class="operator-tag">NKK Express</div>
+                <div class="operator-tag">Motsatsi Holdings</div>
+                <div class="operator-tag">Lawa Holding</div>
+                <div class="operator-tag">Orphan Tours</div>
+                <div class="operator-tag">Tee Pee</div>
+            </div>
+        </section>
+
+        <section class="glass-section" style="border-left: 4px solid var(--gold);">
+            <h2>Safety Is Our Standard</h2>
+            <p>
+                Traveling at night requires expertise. We don't just sell tickets; we audit our partners for your peace of mind.
+            </p>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🛡️ Fleet Integrity</h3>
+                    <p>Every operator is required to submit up-to-date Roadworthiness Certificates and 'P' Permits regularly.</p>
+                </div>
+                <div class="info-card">
+                    <h3>📞 Journey Support</h3>
+                    <p>Our team monitors major routes. In case of delays, Buslink users are notified first via SMS.</p>
+                </div>
+                <div class="info-card">
+                    <h3>🐆 Wildlife Awareness</h3>
+                    <p>We prioritize operators with dual-driver systems for night routes to ensure maximum alertness.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-section" style="text-align: center; background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(212,175,55,0.05));">
+            <h2 style="color: var(--white);">Our Mission</h2>
+            <p style="max-width: 800px; margin: 0 auto 30px;">
+                "To connect every village and city in Botswana through a seamless digital transport ecosystem, empowering local operators and providing world-class convenience to every passenger."
+            </p>
+            <a href="contact us.html" style="color: var(--gold); font-weight: 900; text-decoration: none; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid var(--gold); padding-bottom: 5px;">Join the Movement →</a>
+        </section>
+    </div>
+
+</body>
+</html>

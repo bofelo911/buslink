@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buslink | Botswana Premium Departure Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            /* Brighter Overlay: adjust 0.4 to 0.2 for even brighter */
+            --bg-overlay: rgba(10, 12, 16, 0.4); 
+            --nav-bg: rgba(18, 21, 28, 0.85);
+            --card-bg: rgba(22, 25, 34, 0.8); /* Added transparency for "glass" effect */
+            --gold: #D4AF37; 
+            --gold-hover: #b8962e;
+            --white: #ffffff;
+            --text-dim: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
+        
+        body { 
+            /* FIXED FULL BACKGROUND */
+            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                        url('202112243d1a7fbff9704043858df1a485b86240_27vXPnplr7BrtFnzeJ.jpg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Keeps image in place while scrolling */
+            color: var(--white); 
+            overflow-x: hidden; 
+        }
+
+        /* --- NAVIGATION --- */
+        .nav-wrapper {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 95%; max-width: 1200px; z-index: 1000;
+        }
+
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 30px; background: var(--nav-bg); backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border); border-radius: 100px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .brand-container { display: flex; flex-direction: column; text-decoration: none; }
+        .logo { font-size: 22px; font-weight: 900; color: var(--white); text-transform: lowercase; letter-spacing: -1px; }
+        .logo-subtitle { font-size: 8px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 3px; }
+
+        .nav-links { display: flex; gap: 8px; align-items: center; }
+        
+        .nav-item, .dropbtn {
+            display: flex; align-items: center; text-decoration: none;
+            background: rgba(255, 255, 255, 0.03); padding: 10px 16px; 
+            border-radius: 50px; color: var(--text-dim); border: 1px solid transparent;
+            font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-item i, .dropbtn i { font-size: 14px; transition: margin 0.3s; }
+        .nav-text { max-width: 0; overflow: hidden; opacity: 0; transition: all 0.4s; white-space: nowrap; }
+
+        .nav-item:hover, .dropbtn:hover {
+            background: rgba(212, 175, 55, 0.1); border-color: rgba(212, 175, 55, 0.3);
+            color: var(--gold); padding-right: 20px;
+        }
+        
+        .nav-item:hover i, .dropbtn:hover i { margin-right: 10px; }
+        .nav-item:hover .nav-text, .dropbtn:hover .nav-text { max-width: 120px; opacity: 1; }
+
+        .dropdown { position: relative; }
+        .dropdown-content {
+            display: none; position: absolute; right: 0; top: 100%; background: var(--card-bg);
+            min-width: 180px; border-radius: 20px; margin-top: 15px; border: 1px solid var(--glass-border);
+            z-index: 100; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+        }
+        .dropdown-content a { color: var(--white); padding: 14px 20px; display: block; text-decoration: none; font-size: 12px; font-weight: 600; }
+        .dropdown-content a:hover { background: rgba(212, 175, 55, 0.1); color: var(--gold); }
+        .show { display: block; animation: slideDown 0.3s ease-out; }
+
+        /* --- HERO --- */
+        .hero { position: relative; height: 60vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .hero-card { position: relative; z-index: 10; text-align: center; }
+        .hero-card h1 { font-size: 80px; font-weight: 900; letter-spacing: -4px; line-height: 0.9; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .hero-card h1 span { color: var(--gold); }
+
+        /* --- DEPARTURE SYSTEM --- */
+        .schedule-section { padding: 80px 60px; }
+        .schedule-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 25px; }
+        .bus-card { 
+            background: var(--card-bg); border: 1px solid var(--glass-border); 
+            backdrop-filter: blur(10px);
+            border-radius: 35px; padding: 40px; transition: 0.4s;
+            position: relative; overflow: hidden;
+        }
+        .bus-card:hover { border-color: var(--gold); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .bus-name { font-size: 11px; font-weight: 900; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .bus-time { font-size: 36px; font-weight: 900; margin-bottom: 5px; color: var(--white); }
+        .bus-route { font-size: 14px; color: var(--text-dim); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-weight: 600; }
+        .via-info { font-size: 10px; color: var(--text-dim); margin-bottom: 20px; line-height: 1.6; text-transform: uppercase; border-left: 2px solid var(--gold); padding-left: 10px; }
+        .bus-arrival { font-size: 11px; color: var(--gold); margin-bottom: 25px; font-weight: 800; text-transform: uppercase; display: block; letter-spacing: 1px; }
+        
+        .book-btn { 
+            width: 100%; padding: 18px; border-radius: 15px; border: 2px solid var(--gold);
+            background: transparent; color: var(--gold); font-weight: 900; cursor: pointer;
+            text-transform: uppercase; transition: 0.3s; letter-spacing: 1px;
+        }
+        .book-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+
+        .badge {
+            background: rgba(212, 175, 55, 0.1); color: var(--gold);
+            padding: 5px 12px; border-radius: 6px; font-size: 9px; font-weight: 900;
+            position: absolute; top: 40px; right: 40px;
+        }
+
+        /* --- MODALS --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
+            z-index: 2000; display: none; opacity: 0; transition: 0.4s;
+        }
+        .modal-card {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+            width: 90%; max-width: 450px; background: var(--card-bg); border: 1px solid var(--glass-border);
+            border-radius: 40px; padding: 50px; z-index: 2001; display: none; opacity: 0; transition: 0.4s;
+        }
+        .modal-card.active, .modal-overlay.active { display: block; opacity: 1; }
+        .modal-card.active { transform: translate(-50%, -50%) scale(1); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .modal-title { font-size: 32px; font-weight: 900; }
+        .modal-title span { color: var(--gold); }
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-group i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--gold); }
+        .input-group input { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); padding: 18px 20px 18px 50px; border-radius: 15px; color: white; outline: none; transition: 0.3s; }
+        .input-group input:focus { border-color: var(--gold); }
+        .modal-btn { width: 100%; background: var(--gold); color: black; border: none; padding: 18px; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- NEW ADDED CSS FOR AD & BLINKING CTA --- */
+        .blinking-cta {
+            position: fixed; bottom: 20px; right: 20px; z-index: 999;
+            background: #ff0000; color: white; padding: 10px 20px; 
+            border-radius: 50px; text-decoration: none; font-weight: 900; 
+            font-size: 12px; text-transform: uppercase; border: 2px solid white;
+            animation: redBlink 0.8s infinite alternate;
+        }
+        @keyframes redBlink {
+            from { opacity: 1; transform: scale(1); box-shadow: 0 0 10px #ff0000; }
+            to { opacity: 0.5; transform: scale(0.95); box-shadow: 0 0 0px #ff0000; }
+        }
+        .ad-popup {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 3000; display: none; width: 90%; max-width: 400px;
+        }
+        .ad-popup img { width: 100%; border-radius: 20px; border: 2px solid var(--gold); box-shadow: 0 0 50px rgba(0,0,0,0.9); }
+        .close-ad { position: absolute; top: -15px; right: -15px; background: var(--gold); color: black; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <a href="booking.html" class="blinking-cta">Book Now</a>
+
+    <div class="ad-popup" id="adPopup">
+        <div class="close-ad" onclick="closeAd()">X</div>
+        <img src="YOUR_FLYER_IMAGE_PATH_HERE.jpg" alt="Advert Flyer">
+    </div>
+
+    <div class="nav-wrapper">
+        <nav>
+            <a href="index.html" class="brand-container">
+                <div class="logo">buslink</div>
+                <div class="logo-subtitle">Botswana</div>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item"><i class="fa-solid fa-house"></i><span class="nav-text">Home</span></a>
+                <a href="booking.html" class="nav-item"><i class="fa-solid fa-bus"></i><span class="nav-text">Bookings</span></a>
+                <a href="ABOUT US.html" class="nav-item"><i class="fa-solid fa-circle-info"></i><span class="nav-text">About</span></a>
+                <div class="dropdown">
+                    <button class="dropbtn" onclick="toggleDrop()"><i class="fa-solid fa-user-plus"></i><span class="nav-text">Join Us</span></button>
+                    <div id="myDrop" class="dropdown-content">
+                        <a href="javascript:void(0)" onclick="openModal('login')">Log In</a>
+                        <a href="javascript:void(0)" onclick="openModal('signup')">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="hero">
+        <div class="hero-card">
+            <h1>FLEET<br><span>DISPATCH</span></h1>
+            <p style="color: var(--text-dim); margin-top: 20px; font-weight: 700; letter-spacing: 2px;">REAL-TIME NIGHT SERVICE MONITORING</p>
+        </div>
+    </div>
+
+    <section class="schedule-section">
+        <div style="margin-bottom: 60px;">
+            <h2 style="font-size: 42px; font-weight: 900; letter-spacing: -1px;">Operational <span>Board</span></h2>
+            <p style="color: var(--text-dim); text-transform: uppercase; font-size: 11px; letter-spacing: 4px; font-weight: 700;">Botswana Inter-City Logistics</p>
+        </div>
+
+        <div class="schedule-grid">
+            <div class="bus-card">
+                <span class="badge">FIRST DEPARTURE</span>
+                <div class="bus-name">Motsatsi Holdings</div>
+                <div class="bus-time">05:00 PM</div>
+                <div class="bus-route">Gaborone <i class="fa-solid fa-arrow-right"></i> Maun</div>
+                <div class="via-info">Direct Premium Express</div>
+                <span class="bus-arrival"><i class="fa-solid fa-moon"></i> Arrives 05:00 AM</span>
+                <button class="book-btn" onclick="window.location.href='booking.html'">Select Seat</button>
+            </div>
+
+            <div class="bus-card">
+                <div class="bus-name">Lawa Holdings</div>
+                <div class="bus-time">06:00 PM</div>
+                <div class="bus-route">Maun <i class="fa-solid fa-arrow-right-arrow-left"></i> Kasane</div>
+                <div class="via-info">Northern Link Service</div>
+                <span class="bus-arrival"><i class="fa-solid fa-moon"></i> Arrives 05:30 AM</span>
+                <button class="book-btn" onclick="window.location.href='booking.html'">Select Seat</button>
+            </div>
+
+            <div class="bus-card">
+                <span class="badge" style="background: rgba(255,255,255,0.05); color: #fff;">VIA CENTRAL</span>
+                <div class="bus-name">NKK Express</div>
+                <div class="bus-time">07:00 PM / 07:30 PM</div>
+                <div class="bus-route">Gaborone <i class="fa-solid fa-arrow-right"></i> Maun</div>
+                <div class="via-info">Mahalapye • Palapye • Serowe • Letlhakane • Rakops</div>
+                <span class="bus-arrival"><i class="fa-solid fa-moon"></i> Arrives 06:00 AM / 06:30 AM</span>
+                <button class="book-btn" onclick="window.location.href='booking.html'">Select Seat</button>
+            </div>
+
+            <div class="bus-card">
+                <div class="bus-name">Orphan Tours</div>
+                <div class="bus-time">08:00 PM</div>
+                <div class="bus-route">Gaborone <i class="fa-solid fa-arrow-right"></i> Maun</div>
+                <div class="via-info">Via: Mahalapye • Palapye • Serowe • Letlhakane</div>
+                <span class="bus-arrival"><i class="fa-solid fa-moon"></i> Arrives 06:30 AM</span>
+                <button class="book-btn" onclick="window.location.href='booking.html'">Select Seat</button>
+            </div>
+
+            <div class="bus-card">
+                <div class="bus-name">Golden Bridge</div>
+                <div class="bus-time">08:30 PM</div>
+                <div class="bus-route">Gaborone <i class="fa-solid fa-arrow-right"></i> Maun</div>
+                <div class="via-info">Via: Mahalapye • Palapye • Serowe • Letlhakane</div>
+                <span class="bus-arrival"><i class="fa-solid fa-moon"></i> Arrives 06:45 AM</span>
+                <button class="book-btn" onclick="window.location.href='booking.html'">Select Seat</button>
+            </div>
+
+            <div class="bus-card">
+                <span class="badge" style="border: 1px solid var(--gold);">FINAL BOARDING</span>
+                <div class="bus-name">Tee Pee</div>
+                <div class="bus-time">09:00 PM</div>
+                <div class="bus-route">Gaborone <i class="fa-solid fa-arrow-right"></i> Maun</div>
+                <div class="via-info">Late Night Premium Express</div>
+                <span class="bus-arrival"><i class="fa-solid fa-moon"></i> Arrives 07:00 AM</span>
+                <button class="book-btn" onclick="window.location.href='booking.html'">Select Seat</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModals()"></div>
+    <div class="modal-card" id="loginModal">
+        <div class="modal-header">
+            <h2 class="modal-title">Log <span>In</span></h2>
+            <button onclick="closeModals()" style="background:none; border:none; color:white; font-size:30px; cursor:pointer;">&times;</button>
+        </div>
+        <form>
+            <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" placeholder="Email" required></div>
+            <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" placeholder="Password" required></div>
+            <button type="submit" class="modal-btn">Access Account</button>
+        </form>
+    </div>
+
+    <div class="modal-card" id="signupModal">
+        <div class="modal-header">
+            <h2 class="modal-title">Sign <span>Up</span></h2>
+            <button onclick="closeModals()" style="background:none; border:none; color:white; font-size:30px; cursor:pointer;">&times;</button>
+        </div>
+        <form>
+            <div class="input-group"><i class="fa-solid fa-user"></i><input type="text" placeholder="Full Name" required></div>
+            <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" placeholder="Email" required></div>
+            <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" placeholder="Create Password" required></div>
+            <button type="submit" class="modal-btn">Create Profile</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleDrop() { document.getElementById("myDrop").classList.toggle("show"); }
+        const overlay = document.getElementById('modalOverlay');
+        const loginModal = document.getElementById('loginModal');
+        const signupModal = document.getElementById('signupModal');
+        const adPopup = document.getElementById('adPopup');
+
+        // AD POPUP LOGIC
+        window.onload = function() {
+            setTimeout(() => {
+                adPopup.style.display = 'block';
+                overlay.classList.add('active');
+            }, 1000); // Shows 1 second after page load
+        }
+
+        function closeAd() {
+            adPopup.style.display = 'none';
+            overlay.classList.remove('active');
+        }
+
+        function openModal(type) {
+            document.getElementById("myDrop").classList.remove("show");
+            overlay.classList.add('active');
+            if(type === 'login') loginModal.classList.add('active');
+            else signupModal.classList.add('active');
+        }
+
+        function closeModals() {
+            overlay.classList.remove('active');
+            loginModal.classList.remove('active');
+            signupModal.classList.remove('active');
+            closeAd();
+        }
+
+        window.onclick = function(e) {
+            if (!e.target.closest('.dropdown') && !e.target.closest('.modal-card') && !e.target.closest('.ad-popup')) {
+                document.getElementById("myDrop").classList.remove("show");
+            }
+        }
+    </script>
+</body>
+</html>

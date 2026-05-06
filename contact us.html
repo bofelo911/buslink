@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Movement | Buslink Partnership</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep: #0a0c10;
+            --nav-bg: rgba(18, 21, 28, 0.85);
+            --card-bg: #161922;
+            --gold: #D4AF37; 
+            --gold-hover: #b8962e;
+            --white: #ffffff;
+            --text-dim: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: 
+                linear-gradient(rgba(10, 12, 16, 0.9), rgba(10, 12, 16, 0.9)),
+                url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--white);
+            min-height: 100vh;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 2026 FLOATING NAV BAR --- */
+        .nav-wrapper {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 1200px;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 10px 30px; 
+            background: var(--nav-bg); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .brand-container { display: flex; flex-direction: column; line-height: 1; text-decoration: none; }
+        .logo { font-size: 22px; font-weight: 900; color: var(--white); text-transform: lowercase; letter-spacing: -1px; }
+        .logo-subtitle { font-size: 8px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 3px; }
+
+        .nav-links { display: flex; gap: 8px; align-items: center; }
+        
+        .nav-item {
+            display: flex; 
+            align-items: center; 
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.03); 
+            padding: 10px 16px; 
+            border-radius: 50px;
+            color: var(--text-dim); 
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid transparent;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav-item i { font-size: 14px; transition: margin 0.3s; }
+        .nav-text { 
+            max-width: 0; 
+            overflow: hidden; 
+            white-space: nowrap; 
+            opacity: 0; 
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-item:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.3);
+            color: var(--gold);
+            padding-right: 20px;
+        }
+        
+        .nav-item:hover i { margin-right: 10px; }
+        .nav-item:hover .nav-text { max-width: 120px; opacity: 1; }
+
+        /* --- CONTACT SECTION --- */
+        .contact-container {
+            max-width: 1200px; 
+            margin: 110px auto 30px; /* Space for floating nav */
+            padding: 40px 20px;
+            display: grid; 
+            grid-template-columns: 1fr 1.2fr; 
+            gap: 50px; 
+            align-items: center;
+        }
+
+        .info-side h1 { font-size: 52px; font-weight: 900; line-height: 1; margin-bottom: 25px; letter-spacing: -2px; }
+        .info-side h1 span { color: var(--gold); }
+        .info-side p { font-size: 18px; color: var(--text-dim); line-height: 1.6; margin-bottom: 35px; }
+
+        .benefit-card {
+            background: var(--card-bg); 
+            border: 1px solid var(--glass-border);
+            padding: 25px; border-radius: 20px; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 15px;
+            transition: 0.3s;
+        }
+        .benefit-card:hover { border-color: var(--gold); transform: translateX(10px); }
+        .benefit-card strong { color: var(--gold); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* --- FORM SIDE --- */
+        .form-panel {
+            background: var(--card-bg); 
+            backdrop-filter: blur(25px);
+            padding: 50px; border-radius: 40px; border: 1px solid var(--glass-border);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; color: var(--gold); letter-spacing: 1px; }
+        
+        input, select, textarea {
+            width: 100%; padding: 15px; background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border); border-radius: 12px;
+            color: white; font-weight: 600; outline: none; transition: 0.3s;
+        }
+
+        input:focus, textarea:focus { border-color: var(--gold); background: rgba(255,255,255,0.05); }
+        select option { background: var(--card-bg); }
+
+        .submit-btn {
+            width: 100%; padding: 20px; background: var(--gold);
+            color: #000; border: none; border-radius: 15px; font-weight: 900;
+            text-transform: uppercase; cursor: pointer; transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+            letter-spacing: 1px;
+        }
+        .submit-btn:hover { transform: translateY(-3px); background: var(--gold-hover); box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3); }
+
+        @media (max-width: 900px) {
+            .contact-container { grid-template-columns: 1fr; text-align: center; padding: 20px; }
+            .info-side h1 { font-size: 36px; }
+            .nav-item .nav-text { display: none; }
+            .benefit-card { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-wrapper">
+        <nav>
+            <a href="index.html" class="brand-container">
+                <div class="logo">buslink</div>
+                <div class="logo-subtitle">Botswana</div>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-item">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="nav-text">Home</span>
+                </a>
+                <a href="booking.html" class="nav-item">
+                    <i class="fa-solid fa-bus"></i>
+                    <span class="nav-text">Bookings</span>
+                </a>
+                <a href="ABOUT US.html" class="nav-item">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span class="nav-text">About</span>
+                </a>
+                <a href="myac.html" class="nav-item">
+                    <i class="fa-solid fa-user-circle"></i>
+                    <span class="nav-text">Profile</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <div class="contact-container">
+        <div class="info-side">
+            <h1>Join the <span>Elite Movement.</span></h1>
+            <p>Ready to modernize your fleet? Buslink provides the digital infrastructure for Botswana's leading bus operators.</p>
+            
+            <div class="benefit-card">
+                <div>
+                    <strong>Digital Ticketing</strong>
+                    <p style="font-size: 12px; color: var(--text-dim); margin-top: 5px;">Eliminate paper and manual errors with our high-end QR system.</p>
+                </div>
+            </div>
+
+            <div class="benefit-card">
+                <div>
+                    <strong>Instant Settlements</strong>
+                    <p style="font-size: 12px; color: var(--text-dim); margin-top: 5px;">Direct automated payments via Orange Money, MyZaka, or Smega.</p>
+                </div>
+            </div>
+
+            <div class="benefit-card">
+                <div>
+                    <strong>Fleet Analytics</strong>
+                    <p style="font-size: 12px; color: var(--text-dim); margin-top: 5px;">Advanced reporting to track route performance and passenger density.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-panel">
+            <h2 style="margin-bottom: 30px; font-weight: 900; font-size: 24px;">Partner Inquiry</h2>
+            <form id="partnerForm">
+                <div class="form-group">
+                    <label>Bus Operator / Company Name</label>
+                    <input type="text" placeholder="e.g. NKK Express" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Contact Person</label>
+                    <input type="text" placeholder="Your Full Name" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" placeholder="+267..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Fleet Size</label>
+                        <select>
+                            <option>1-5 Buses</option>
+                            <option>5-15 Buses</option>
+                            <option>15+ Buses</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tell us about your routes</label>
+                    <textarea rows="4" placeholder="Which routes do you currently operate?"></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Partnership Inquiry</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('partnerForm').onsubmit = function(e) {
+            e.preventDefault();
+            const btn = document.querySelector('.submit-btn');
+            btn.innerText = "AUTHORIZING REQUEST...";
+            btn.style.background = "#333";
+            btn.style.color = "#fff";
+            
+            setTimeout(() => {
+                alert("Dumela! Your inquiry has been sent to the Buslink Partnership team. We will contact you shortly.");
+                btn.innerText = "INQUIRY SUBMITTED";
+                btn.disabled = true;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
